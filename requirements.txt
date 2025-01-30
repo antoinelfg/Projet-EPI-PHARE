@@ -5,3 +5,4 @@ lifelines
 numpy
 requests
 streamlit_plotly_events
+openpyxl
