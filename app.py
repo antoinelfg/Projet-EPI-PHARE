@@ -386,7 +386,7 @@ if 'Région' in sections:
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("Répartition selon le Quintile de Défavourisation")
+        st.subheader("Répartition selon le Quintile de Défavorisation")
 
         # Prepare data
         quintile_counts = filtered_df["quintile_defav"].value_counts().reset_index()
