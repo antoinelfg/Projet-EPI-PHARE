@@ -41,7 +41,7 @@ if show_data:
     st.write(df.head())
 
 
-logo_path = "/Users/fork/Documents/Mines/3A/EpiPhare/logo_epi.png"  # Replace with the actual path
+logo_path = "logo_epi.png"  # Replace with the actual path
 
 # --- Sidebar: Editable Metadata ---
 st.sidebar.header("📝 Modifier les informations")
