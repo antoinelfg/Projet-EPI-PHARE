@@ -1,0 +1,7 @@
+streamlit
+pandas
+plotly
+lifelines
+numpy
+requests
+streamlit_plotly_events
