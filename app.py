@@ -11,13 +11,12 @@ import numpy as np
 
 st.set_page_config(layout="wide")
 
-
 st.sidebar.title("📂 Charger un fichier")
 
 # File uploader widget
 uploaded_file = st.sidebar.file_uploader("Téléverser un fichier (.xlsx ou .csv)", type=["xlsx", "csv"])
 
-# Load dataset
+# Load dataset if a file is uploaded
 if uploaded_file is not None:
     file_extension = uploaded_file.name.split(".")[-1]  # Get file extension
     
@@ -28,17 +27,17 @@ if uploaded_file is not None:
     
     st.sidebar.success(f"✅ Fichier chargé : {uploaded_file.name}")
 
+    # Toggle for showing data preview
+    show_data = st.sidebar.checkbox("Afficher l'aperçu des données", value=False)
+
+    # Display dataset preview if checkbox is selected
+    if show_data:
+        st.subheader("📊 Aperçu des données")
+        st.write(df.head())
+
 else:
-    df = pd.read_excel('base_anonyme_tdxd.xlsx')  # Default dataset
-    st.sidebar.info("📌 Aucun fichier chargé. Utilisation du dataset par défaut.")
-
-# Toggle for showing data preview
-show_data = st.sidebar.checkbox("Afficher l'aperçu des données", value=False)
-
-# Display dataset preview if checkbox is selected
-if show_data:
-    st.subheader("📊 Aperçu des données")
-    st.write(df.head())
+    st.warning("📌 Aucun fichier chargé, veuillez charger un fichier")
+    st.stop()  # Stop execution if no dataset is loaded
 
 
 logo_path = "logo_epi.png"  # Replace with the actual path
