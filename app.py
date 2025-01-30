@@ -234,17 +234,6 @@ if "Introduction" in sections:
     st.subheader("Introduction")
     st.write(introduction)
 
-
-if "Survie" in sections:
-    st.subheader("Kaplan-Meier: Survie sans progression")
-    st.write("Courbes Kaplan-Meier séparées montrant les points mensuels avec le pourcentage de survie et le nombre de sujets à risque, ainsi qu'une ligne horizontale pour la médiane de survie.")
-    plot_individual_kaplan_meier(df, time_col='duree_ttt_mois', event_col='top_deces', title_prefix="Survie sans progression")
-
-    ### Overall Survival
-    st.subheader("Kaplan-Meier: Survie globale")
-    st.write("Courbes Kaplan-Meier séparées montrant les points mensuels avec le pourcentage de survie et le nombre de sujets à risque, ainsi qu'une ligne horizontale pour la médiane de survie.")
-    plot_individual_kaplan_meier(df, time_col='duree_survie_mois', event_col='top_deces', title_prefix="Survie globale")
-
 if 'Région' in sections:
     st.sidebar.header("Filtres")
     selected_region = st.sidebar.selectbox("Sélectionner une région", options=df["region"].unique(), index=0)
@@ -489,73 +478,15 @@ if "Admissions Over Time" in sections:
         # Render the interactive plot
     st.plotly_chart(fig)
 
+if "Survie" in sections:
+    st.subheader("Kaplan-Meier: Survie sans progression")
+    st.write("Courbes Kaplan-Meier séparées montrant les points mensuels avec le pourcentage de survie et le nombre de sujets à risque, ainsi qu'une ligne horizontale pour la médiane de survie.")
+    plot_individual_kaplan_meier(df, time_col='duree_ttt_mois', event_col='top_deces', title_prefix="Survie sans progression")
 
-# Add a new subsection with a catchphrase
-if "Répartition des Métastases et Chirurgies" in sections:
-    st.subheader("Répartition des Métastases et Chirurgies")
-    st.write("Un aperçu visuel de la répartition des métastases et des types de chirurgies chez les patients.")
-
-    # Filter the data for metastases
-    metastase_df = df[df['top_meta'] == 1]
-    metastase_columns = [
-        'top_meta_gang', 'top_meta_os', 'top_meta_dig',
-        'top_meta_poum', 'top_meta_brain'
-    ]
-    metastase_counts = metastase_df[metastase_columns].sum().reset_index()
-    metastase_counts.columns = ['Type de métastase', 'Nombre']
-
-    # Filter the data for surgeries
-    chirurgie_df = df[df['top_chir'] == 1]
-    chirurgie_columns = [
-        'top_radio', 'top_hormono', 'top_tdm1', 'top_trastu_pertu',
-        'top_trastu', 'top_tki_her2', 'top_chimio_peros', 'top_cdk46',
-        'top_pdl1', 'top_parpi', 'top_sac_gov'
-    ]
-    chirurgie_counts = chirurgie_df[chirurgie_columns].sum().reset_index()
-    chirurgie_counts.columns = ['Type de chirurgie', 'Nombre']
-
-    # Create the pie chart for metastases
-    fig_metastase = go.Pie(
-        labels=metastase_counts['Type de métastase'],
-        values=metastase_counts['Nombre'],
-        textinfo='percent+label',  # Labels and percentages in the pie chart
-        hole=0.4,  # Donut style
-        pull=[0.1 if i == metastase_counts['Nombre'].idxmax() else 0 for i in range(len(metastase_counts))],
-        marker=dict(colors=px.colors.sequential.Sunset)  # Sunset color palette
-    )
-
-    # Create the pie chart for surgeries
-    fig_chirurgie = go.Pie(
-        labels=chirurgie_counts['Type de chirurgie'],
-        values=chirurgie_counts['Nombre'],
-        textinfo='percent+label',  # Labels and percentages in the pie chart
-        hole=0.4,  # Donut style
-        pull=[0.1 if i == chirurgie_counts['Nombre'].idxmax() else 0 for i in range(len(chirurgie_counts))],
-        marker=dict(colors=px.colors.sequential.Aggrnyl)  # Aggrnyl color palette
-    )
-
-    # Create side-by-side subplots
-    fig = make_subplots(
-        rows=1, cols=2, specs=[[{'type': 'domain'}, {'type': 'domain'}]],
-        subplot_titles=("Métastases", "Chirurgies")
-    )
-
-    # Add the two pie charts to the subplots
-    fig.add_trace(fig_metastase, row=1, col=1)
-    fig.add_trace(fig_chirurgie, row=1, col=2)
-
-    # Adjust the layout
-    fig.update_layout(
-        title_text="Répartition des Métastases et Chirurgies",
-        title_x=0.35,
-        height=600,  # Height of the figure
-        width=1000,  # Width of the figure
-        margin=dict(t=70, b=0, l=0, r=0),  # Adjust margins
-        showlegend=False  # Remove the external legend
-    )
-
-    # Display the interactive plot in Streamlit
-    st.plotly_chart(fig)
+    ### Overall Survival
+    st.subheader("Kaplan-Meier: Survie globale")
+    st.write("Courbes Kaplan-Meier séparées montrant les points mensuels avec le pourcentage de survie et le nombre de sujets à risque, ainsi qu'une ligne horizontale pour la médiane de survie.")
+    plot_individual_kaplan_meier(df, time_col='duree_survie_mois', event_col='top_deces', title_prefix="Survie globale")
 
 # Conclusion Section
 if "Conclusion" in sections:
