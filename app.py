@@ -29,7 +29,7 @@ if uploaded_file is not None:
     st.sidebar.success(f"✅ Fichier chargé : {uploaded_file.name}")
 
 else:
-    df = pd.read_excel('/Users/fork/Documents/Mines/3A/EpiPhare/base_anonyme_tdxd.xlsx')  # Default dataset
+    df = pd.read_excel('base_anonyme_tdxd.xlsx')  # Default dataset
     st.sidebar.info("📌 Aucun fichier chargé. Utilisation du dataset par défaut.")
 
 # Toggle for showing data preview
